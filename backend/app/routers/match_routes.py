@@ -20,7 +20,12 @@ async def get_matches(db: Session = Depends(get_db)):
 
 
 @router.post("",  response_model=List[MatchBase], status_code=201)
-def create_matches(matches: List[MatchBase], db: Session = Depends(get_db)):
+async def create_matches(matches: List[MatchBase], db: Session = Depends(get_db)):
     created_matches = match_repository.bulk_create(matches, db)
 
     return created_matches
+
+
+@router.delete("",  response_model=str)
+async def delete_matches(db: Session = Depends(get_db)):
+    return match_repository.delete_all(db)

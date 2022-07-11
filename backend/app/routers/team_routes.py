@@ -20,7 +20,12 @@ async def get_teams(db: Session = Depends(get_db)):
 
 
 @router.post("",  response_model=List[TeamBase], status_code=201)
-def create_teams(teams: List[TeamBase], db: Session = Depends(get_db)):
+async def create_teams(teams: List[TeamBase], db: Session = Depends(get_db)):
     created_teams = team_repository.bulk_create(teams, db)
 
     return created_teams
+
+
+@router.delete("",  response_model=str)
+async def delete_teams(db: Session = Depends(get_db)):
+    return team_repository.delete_all(db)

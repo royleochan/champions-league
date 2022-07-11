@@ -21,3 +21,9 @@ class BaseRepository(Generic[ModelType, BaseSchemaType]):
         db.commit()
 
         return to_create
+
+    def delete_all(self, db: Session) -> str:
+        db.query(self.model).delete()
+        db.commit()
+
+        return "Deleted all records"
