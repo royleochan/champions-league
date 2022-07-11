@@ -3,6 +3,11 @@ from fastapi import FastAPI
 
 from .database.database import engine
 from .models.base import Base
+from .routers import team_routes
+
+
+def include_routers(app):
+    app.include_router(team_routes.router)
 
 
 def create_tables():
@@ -22,6 +27,7 @@ def configure_middleware(app):
 def start_application():
     app = FastAPI()
     configure_middleware(app)
+    include_routers(app)
     create_tables()
     return app
 
