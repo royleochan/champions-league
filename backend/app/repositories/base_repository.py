@@ -16,7 +16,7 @@ class BaseRepository(Generic[ModelType, BaseSchemaType]):
         return db.query(self.model).all()
 
     def bulk_create(self, objects: List[BaseSchemaType], db: Session) -> List[ModelType]:
-        to_create = [self.model(**obj) for obj in objects]
+        to_create = [self.model(**obj.dict()) for obj in objects]
         db.bulk_save_objects(to_create)
         db.commit()
 
