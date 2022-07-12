@@ -8,6 +8,7 @@ import {
   Button,
   useDisclosure,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
@@ -20,8 +21,10 @@ import TEAM_CONSTANTS from "constants/team";
 import MATCH_CONSTANTS from "constants/match";
 import request from "utils/request";
 import { parseResults, parseTeam } from "utils/parser";
+import { showErrorToast, showSuccessToast } from "utils/toastUtil";
 
 const Home = () => {
+  const toast = useToast();
   const [isResetLoading, setIsResetLoading] = useState(false);
   const {
     isOpen: isRegisterModalOpen,
@@ -39,9 +42,10 @@ const Home = () => {
     const result = parseTeam(input);
     try {
       await request.post("team", result);
+      showSuccessToast(toast, TEAM_CONSTANTS.success);
     } catch (err) {
       console.log(err);
-      alert("Error occured, please try again");
+      showErrorToast(toast, TEAM_CONSTANTS.fail);
     }
   };
 
@@ -50,9 +54,10 @@ const Home = () => {
     const result = parseResults(input);
     try {
       await request.post("match", result);
+      showSuccessToast(toast, MATCH_CONSTANTS.success);
     } catch (err) {
       console.log(err);
-      alert("Error occured, please try again");
+      showErrorToast(toast, MATCH_CONSTANTS.error);
     }
   };
 
@@ -60,9 +65,10 @@ const Home = () => {
     try {
       setIsResetLoading(true);
       await request.delete("operation/reset");
+      showSuccessToast(toast, "Cleared all data");
     } catch (err) {
       console.log(err);
-      alert("Error occured, please try again");
+      showErrorToast(toast, "Faild to clear data");
     } finally {
       setIsResetLoading(false);
     }
