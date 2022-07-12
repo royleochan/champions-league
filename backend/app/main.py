@@ -3,12 +3,13 @@ from fastapi import FastAPI
 
 from .database.database import engine
 from .models.base import Base
-from .routers import team_routes, match_routes
+from .routers import operation_routes, team_routes, match_routes
 
 
 def include_routers(app):
     app.include_router(team_routes.router)
     app.include_router(match_routes.router)
+    app.include_router(operation_routes.router)
 
 
 def create_tables():
