@@ -14,18 +14,16 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
-const ModalForm = ({ isOpen, onClose, title, name }) => {
+const ModalForm = ({ isOpen, onClose, title, name, submitHandler }) => {
   const initialRef = useRef(null);
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = (values) => {
-    console.log(errors);
-    console.log(values);
-  };
+  const onSubmit = (values) => submitHandler(values);
 
   return (
     <Modal
@@ -33,6 +31,7 @@ const ModalForm = ({ isOpen, onClose, title, name }) => {
       isOpen={isOpen}
       onClose={onClose}
       size={"lg"}
+      onCloseComplete={reset}
     >
       <ModalOverlay />
       <ModalContent sx={{ height: "60vh" }}>

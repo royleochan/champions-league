@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Flex,
   Box,
@@ -9,14 +9,20 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 import footballBackground from "assets/football.png";
 import BaseCard from "components/BaseCard";
 import ResultTable from "components/ResultTable";
 import ToggleColor from "components/ToggleColor";
 import ModalForm from "components/ModalForm";
+import TEAM_CONSTANTS from "constants/team";
+import MATCH_CONSTANTS from "constants/match";
+import request from "utils/request";
+import { parseResults, parseTeam } from "utils/parser";
 
 const Home = () => {
+  const [isResetLoading, setIsResetLoading] = useState(false);
   const {
     isOpen: isRegisterModalOpen,
     onOpen: onRegisterModalOpen,
@@ -27,6 +33,40 @@ const Home = () => {
     onOpen: onResultsModalOpen,
     onClose: onResultsModalClose,
   } = useDisclosure();
+
+  const submitTeams = async (values) => {
+    const input = values[TEAM_CONSTANTS.name];
+    const result = parseTeam(input);
+    try {
+      await request.post("team", result);
+    } catch (err) {
+      console.log(err);
+      alert("Error occured, please try again");
+    }
+  };
+
+  const submitResults = async (values) => {
+    const input = values[MATCH_CONSTANTS.name];
+    const result = parseResults(input);
+    try {
+      await request.post("match", result);
+    } catch (err) {
+      console.log(err);
+      alert("Error occured, please try again");
+    }
+  };
+
+  const resetData = async () => {
+    try {
+      setIsResetLoading(true);
+      await request.delete("operation/reset");
+    } catch (err) {
+      console.log(err);
+      alert("Error occured, please try again");
+    } finally {
+      setIsResetLoading(false);
+    }
+  };
 
   return (
     <>
@@ -55,6 +95,14 @@ const Home = () => {
                 Register Teams
               </Button>
               <Button onClick={onResultsModalOpen}>Input Results</Button>
+              <Button
+                onClick={resetData}
+                isLoading={isResetLoading}
+                leftIcon={<DeleteIcon />}
+                colorScheme="red"
+              >
+                Reset Data
+              </Button>
             </HStack>
           </Box>
         </Box>
@@ -71,13 +119,15 @@ const Home = () => {
         isOpen={isRegisterModalOpen}
         onClose={onRegisterModalClose}
         title={"Register Teams"}
-        name="Teams"
+        name={TEAM_CONSTANTS.name}
+        submitHandler={submitTeams}
       />
       <ModalForm
         isOpen={isResultsModalOpen}
         onClose={onResultsModalClose}
         title={"Input Results"}
-        name="Matches"
+        name={MATCH_CONSTANTS.name}
+        submitHandler={submitResults}
       />
     </>
   );
