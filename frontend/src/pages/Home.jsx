@@ -127,6 +127,7 @@ const Home = () => {
         title={"Register Teams"}
         name={TEAM_CONSTANTS.name}
         submitHandler={submitTeams}
+        placeholder={TEAM_CONSTANTS.placeholder}
       />
       <ModalForm
         isOpen={isResultsModalOpen}
@@ -134,6 +135,7 @@ const Home = () => {
         title={"Input Results"}
         name={MATCH_CONSTANTS.name}
         submitHandler={submitResults}
+        placeholder={MATCH_CONSTANTS.placeholder}
       />
     </>
   );

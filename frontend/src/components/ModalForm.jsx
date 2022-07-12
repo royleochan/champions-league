@@ -14,7 +14,14 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
-const ModalForm = ({ isOpen, onClose, title, name, submitHandler }) => {
+const ModalForm = ({
+  isOpen,
+  onClose,
+  title,
+  name,
+  submitHandler,
+  placeholder,
+}) => {
   const initialRef = useRef(null);
   const {
     handleSubmit,
@@ -45,9 +52,9 @@ const ModalForm = ({ isOpen, onClose, title, name, submitHandler }) => {
                 size="sm"
                 sx={{ height: "100%" }}
                 ref={initialRef}
-                placeholder="Here is a sample placeholder"
+                placeholder={placeholder}
                 {...register(name, {
-                  required: `${name} is required`,
+                  required: "Input is required",
                 })}
               />
               <FormErrorMessage>
