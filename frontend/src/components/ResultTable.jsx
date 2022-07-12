@@ -11,11 +11,11 @@ import {
   Heading,
 } from "@chakra-ui/react";
 
-const ResultTable = () => {
+const ResultTable = ({ title }) => {
   return (
     <TableContainer>
-      <Heading>Results</Heading>
-      <Table variant="simple">
+      <Heading size="md">{title}</Heading>
+      <Table variant="simple" size="sm">
         <TableCaption>Current Standings</TableCaption>
         <Thead>
           <Tr>
