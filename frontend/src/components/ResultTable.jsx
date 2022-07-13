@@ -11,29 +11,44 @@ import {
   Heading,
 } from "@chakra-ui/react";
 
-const ResultTable = ({ title }) => {
+const ResultTable = ({ title, results }) => {
   return (
     <TableContainer>
       <Heading size="md">{title}</Heading>
       <Table variant="simple" size="sm">
-        <TableCaption>Current Standings</TableCaption>
+        {results.length === 0 && (
+          <TableCaption>
+            Standings will be shown after registration of teams has been
+            completed
+          </TableCaption>
+        )}
         <Thead>
           <Tr>
             <Th>Team</Th>
+            <Th>Date</Th>
             <Th isNumeric>W</Th>
             <Th isNumeric>D</Th>
             <Th isNumeric>L</Th>
             <Th isNumeric>Pts</Th>
+            <Th isNumeric>Alt-Pts</Th>
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>Lorem</Td>
-            <Td isNumeric>1</Td>
-            <Td isNumeric>2</Td>
-            <Td isNumeric>3</Td>
-            <Td isNumeric>5</Td>
-          </Tr>
+          {results.map((result) => {
+            const { team, date, wins, draws, losses, points, alt_points } =
+              result;
+            return (
+              <Tr>
+                <Td>{team}</Td>
+                <Td>{date}</Td>
+                <Td isNumeric>{wins}</Td>
+                <Td isNumeric>{draws}</Td>
+                <Td isNumeric>{losses}</Td>
+                <Td isNumeric>{points}</Td>
+                <Td isNumeric>{alt_points}</Td>
+              </Tr>
+            );
+          })}
         </Tbody>
       </Table>
     </TableContainer>

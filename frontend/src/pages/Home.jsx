@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Flex,
   Box,
@@ -25,6 +25,8 @@ import { showErrorToast, showSuccessToast } from "utils/toastUtil";
 
 const Home = () => {
   const toast = useToast();
+  const [groupOneResults, setGroupOneResults] = useState([]);
+  const [groupTwoResults, setGroupTwoResults] = useState([]);
   const [isResetLoading, setIsResetLoading] = useState(false);
   const {
     isOpen: isRegisterModalOpen,
@@ -36,6 +38,17 @@ const Home = () => {
     onOpen: onResultsModalOpen,
     onClose: onResultsModalClose,
   } = useDisclosure();
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      const response = await request.get("/operation/results");
+      const { data } = response;
+      const { one, two } = data;
+      setGroupOneResults(one);
+      setGroupTwoResults(two);
+    };
+    fetchResults();
+  }, []);
 
   const submitTeams = async (values) => {
     const input = values[TEAM_CONSTANTS.name];
@@ -114,10 +127,10 @@ const Home = () => {
         </Box>
         <VStack sx={{ height: "60vh" }} justifyContent={"space-between"}>
           <BaseCard>
-            <ResultTable title={"Group 1 Results"} />
+            <ResultTable title={"Group 1 Results"} results={groupOneResults} />
           </BaseCard>
           <BaseCard>
-            <ResultTable title={"Group 2 Results"} />
+            <ResultTable title={"Group 2 Results"} results={groupTwoResults} />
           </BaseCard>
         </VStack>
       </Flex>
