@@ -28,6 +28,8 @@ const Home = () => {
   const [groupOneResults, setGroupOneResults] = useState([]);
   const [groupTwoResults, setGroupTwoResults] = useState([]);
   const [isResetLoading, setIsResetLoading] = useState(false);
+  const [isResultsLoading, setIsResultsLoading] = useState(false);
+
   const {
     isOpen: isRegisterModalOpen,
     onOpen: onRegisterModalOpen,
@@ -39,26 +41,36 @@ const Home = () => {
     onClose: onResultsModalClose,
   } = useDisclosure();
 
-  useEffect(() => {
-    const fetchResults = async () => {
+  const getResults = async () => {
+    try {
       const response = await request.get("/operation/results");
       const { data } = response;
       const { one, two } = data;
       setGroupOneResults(one);
       setGroupTwoResults(two);
-    };
-    fetchResults();
+    } catch (err) {
+      console.log(err);
+      showErrorToast(toast, "Failed to compute results");
+    }
+  };
+
+  useEffect(() => {
+    getResults();
   }, []);
 
   const submitTeams = async (values) => {
     const input = values[TEAM_CONSTANTS.name];
     const result = parseTeam(input);
     try {
+      setIsResultsLoading(true);
       await request.post("team", result);
+      await getResults();
       showSuccessToast(toast, TEAM_CONSTANTS.success);
     } catch (err) {
       console.log(err);
       showErrorToast(toast, TEAM_CONSTANTS.fail);
+    } finally {
+      setIsResultsLoading(false);
     }
   };
 
@@ -66,24 +78,31 @@ const Home = () => {
     const input = values[MATCH_CONSTANTS.name];
     const result = parseResults(input);
     try {
+      setIsResultsLoading(true);
       await request.post("match", result);
+      await getResults();
       showSuccessToast(toast, MATCH_CONSTANTS.success);
     } catch (err) {
       console.log(err);
       showErrorToast(toast, MATCH_CONSTANTS.error);
+    } finally {
+      setIsResultsLoading(false);
     }
   };
 
   const resetData = async () => {
     try {
       setIsResetLoading(true);
+      setIsResultsLoading(true);
       await request.delete("operation/reset");
+      await getResults();
       showSuccessToast(toast, "Cleared all data");
     } catch (err) {
       console.log(err);
       showErrorToast(toast, "Faild to clear data");
     } finally {
       setIsResetLoading(false);
+      setIsResultsLoading(false);
     }
   };
 
@@ -127,10 +146,18 @@ const Home = () => {
         </Box>
         <VStack sx={{ height: "60vh" }} justifyContent={"space-between"}>
           <BaseCard>
-            <ResultTable title={"Group 1 Results"} results={groupOneResults} />
+            <ResultTable
+              title={"Group 1 Results"}
+              results={groupOneResults}
+              isLoading={isResultsLoading}
+            />
           </BaseCard>
           <BaseCard>
-            <ResultTable title={"Group 2 Results"} results={groupTwoResults} />
+            <ResultTable
+              title={"Group 2 Results"}
+              results={groupTwoResults}
+              isLoading={isResultsLoading}
+            />
           </BaseCard>
         </VStack>
       </Flex>
