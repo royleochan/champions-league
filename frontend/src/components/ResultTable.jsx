@@ -38,14 +38,23 @@ const ResultTable = ({ title, results, isLoading }) => {
               <Th isNumeric>W</Th>
               <Th isNumeric>D</Th>
               <Th isNumeric>L</Th>
+              <Th isNumeric>Goals</Th>
               <Th isNumeric>Pts</Th>
               <Th isNumeric>Alt-Pts</Th>
             </Tr>
           </Thead>
           <Tbody>
             {results.map((result, i) => {
-              const { team, date, wins, draws, losses, points, alt_points } =
-                result;
+              const {
+                team,
+                date,
+                wins,
+                draws,
+                losses,
+                points,
+                alt_points,
+                goals,
+              } = result;
               return (
                 <Tr bgColor={i <= 3 ? "green.200" : ""}>
                   <Td>{team}</Td>
@@ -53,6 +62,7 @@ const ResultTable = ({ title, results, isLoading }) => {
                   <Td isNumeric>{wins}</Td>
                   <Td isNumeric>{draws}</Td>
                   <Td isNumeric>{losses}</Td>
+                  <Td isNumeric>{goals}</Td>
                   <Td isNumeric>{points}</Td>
                   <Td isNumeric>{alt_points}</Td>
                 </Tr>
