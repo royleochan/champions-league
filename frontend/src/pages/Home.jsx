@@ -43,6 +43,7 @@ const Home = () => {
 
   const getResults = async () => {
     try {
+      setIsResultsLoading(true);
       const response = await request.get("/operation/results");
       const { data } = response;
       const { one, two } = data;
@@ -51,13 +52,13 @@ const Home = () => {
     } catch (err) {
       console.log(err);
       showErrorToast(toast, "Failed to compute results");
+    } finally {
+      setIsResultsLoading(false);
     }
   };
 
   useEffect(() => {
-    setIsResultsLoading(true);
     getResults();
-    setIsResultsLoading(false);
   }, []);
 
   const submitTeams = async (values, reset) => {
