@@ -55,7 +55,9 @@ const Home = () => {
   };
 
   useEffect(() => {
+    setIsResultsLoading(true);
     getResults();
+    setIsResultsLoading(false);
   }, []);
 
   const submitTeams = async (values, reset) => {
