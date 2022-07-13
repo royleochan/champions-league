@@ -58,7 +58,7 @@ const Home = () => {
     getResults();
   }, []);
 
-  const submitTeams = async (values) => {
+  const submitTeams = async (values, reset) => {
     const input = values[TEAM_CONSTANTS.name];
     const result = parseTeam(input);
     try {
@@ -70,11 +70,13 @@ const Home = () => {
       console.log(err);
       showErrorToast(toast, TEAM_CONSTANTS.fail);
     } finally {
+      onRegisterModalClose();
       setIsResultsLoading(false);
+      reset();
     }
   };
 
-  const submitResults = async (values) => {
+  const submitResults = async (values, reset) => {
     const input = values[MATCH_CONSTANTS.name];
     const result = parseResults(input);
     try {
@@ -86,7 +88,9 @@ const Home = () => {
       console.log(err);
       showErrorToast(toast, MATCH_CONSTANTS.error);
     } finally {
+      onResultsModalClose();
       setIsResultsLoading(false);
+      reset();
     }
   };
 

@@ -30,7 +30,7 @@ const ModalForm = ({
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = (values) => submitHandler(values);
+  const onSubmit = (values) => submitHandler(values, reset);
 
   return (
     <Modal
