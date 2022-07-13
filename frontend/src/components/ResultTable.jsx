@@ -43,11 +43,11 @@ const ResultTable = ({ title, results, isLoading }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {results.map((result) => {
+            {results.map((result, i) => {
               const { team, date, wins, draws, losses, points, alt_points } =
                 result;
               return (
-                <Tr>
+                <Tr bgColor={i <= 3 ? "green.200" : ""}>
                   <Td>{team}</Td>
                   <Td>{date}</Td>
                   <Td isNumeric>{wins}</Td>
