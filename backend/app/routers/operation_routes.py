@@ -49,7 +49,7 @@ async def compute_results(db: Session = Depends(get_db)):
             team_two.add_draw()
 
     group_one_lst = [team for team in group_one.values()]
-    group_two_lst = [team for team in group_one.values()]
+    group_two_lst = [team for team in group_two.values()]
     group_one_lst.sort(reverse=True)
     group_two_lst.sort(reverse=True)
 
