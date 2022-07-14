@@ -11,6 +11,7 @@ import {
   FormControl,
   FormErrorMessage,
   Textarea,
+  FormHelperText,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
@@ -57,6 +58,9 @@ const ModalForm = ({
                   required: "Input is required",
                 })}
               />
+              <FormHelperText sx={{ mt: 4 }}>
+                Note that there should be no trailing newline
+              </FormHelperText>
               <FormErrorMessage>
                 {errors[name] && errors[name].message}
               </FormErrorMessage>
