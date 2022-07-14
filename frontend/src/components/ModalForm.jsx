@@ -22,6 +22,7 @@ const ModalForm = ({
   name,
   submitHandler,
   placeholder,
+  validator,
 }) => {
   const initialRef = useRef(null);
   const {
@@ -56,6 +57,7 @@ const ModalForm = ({
                 placeholder={placeholder}
                 {...register(name, {
                   required: "Input is required",
+                  validate: validator,
                 })}
               />
               <FormHelperText sx={{ mt: 4 }}>
@@ -74,7 +76,6 @@ const ModalForm = ({
               >
                 Save
               </Button>
-              <Button onClick={onClose}>Cancel</Button>
             </Box>
           </form>
         </ModalBody>

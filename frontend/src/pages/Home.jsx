@@ -22,6 +22,7 @@ import MATCH_CONSTANTS from "constants/match";
 import request from "utils/request";
 import { parseResults, parseTeam } from "utils/parser";
 import { showErrorToast, showSuccessToast } from "utils/toastUtil";
+import { teamValidator, resultsValidator } from "utils/validator";
 
 const Home = () => {
   const toast = useToast();
@@ -175,6 +176,7 @@ const Home = () => {
         name={TEAM_CONSTANTS.name}
         submitHandler={submitTeams}
         placeholder={TEAM_CONSTANTS.placeholder}
+        validator={teamValidator}
       />
       <ModalForm
         isOpen={isResultsModalOpen}
@@ -183,6 +185,7 @@ const Home = () => {
         name={MATCH_CONSTANTS.name}
         submitHandler={submitResults}
         placeholder={MATCH_CONSTANTS.placeholder}
+        validator={resultsValidator}
       />
     </>
   );

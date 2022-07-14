@@ -1,6 +1,10 @@
+const parseNewLine = (input) => {
+  return input.split("\n");
+};
+
 const parseTeam = (input) => {
   const result = [];
-  const teams = input.split("\n");
+  const teams = parseNewLine(input);
   teams.forEach((team) => {
     const [name, registrationDate, group] = team.split(" ");
     result.push({
@@ -15,7 +19,7 @@ const parseTeam = (input) => {
 
 const parseResults = (input) => {
   const result = [];
-  const matches = input.split("\n");
+  const matches = parseNewLine(input);
   matches.forEach((match) => {
     const [teamOne, teamTwo, teamOneGoals, teamTwoGoals] = match.split(" ");
     result.push({
@@ -29,4 +33,4 @@ const parseResults = (input) => {
   return result;
 };
 
-export { parseTeam, parseResults };
+export { parseNewLine, parseTeam, parseResults };
