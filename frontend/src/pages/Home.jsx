@@ -151,7 +151,7 @@ const Home = () => {
             </HStack>
           </Box>
         </Box>
-        <VStack sx={{ height: "60vh" }} justifyContent={"space-between"}>
+        <VStack sx={{ height: "75vh" }} justifyContent={"space-between"}>
           <BaseCard>
             <ResultTable
               title={"Group 1 Results"}
